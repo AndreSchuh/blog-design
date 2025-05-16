@@ -40,71 +40,8 @@
 
     <!-- Conteúdo Principal -->
     <main class="container pb-5">
-        <div class="row g-4">
-            <!-- Postagem em Destaque -->
-            <div class="col-12">
-                <div class="card border-0 bg-dark-alt">
-                    <div class="row g-0">
-                        <div class="col-md-6">
-                            <img src="https://source.unsplash.com/random/600x400/?minimal" class="img-fluid rounded-start" alt="Postagem em destaque">
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-body p-4 p-lg-5">
-                                <small class="text-white-50">DESTAQUE</small>
-                                <h2 class="card-title mt-2 text-white">A Arte do Menos</h2>
-                                <p class="card-text text-white">Explorando como o minimalismo pode levar a experiências mais significativas na vida e no trabalho.</p>
-                                <a href="post.html" class="btn btn-sm btn-outline-light">Leia Mais</a>
-                                <div class="mt-4">
-                                    <small class="text-white-50">15 de junho de 2023 · 5 min de leitura</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Postagens Recentes -->
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 bg-dark-alt h-100">
-                    <img src="https://source.unsplash.com/random/400x300/?design" class="card-img-top" alt="Imagem da postagem">
-                    <div class="card-body">
-                        <h3 class="h5 card-title text-white">Princípios do Design Minimalista</h3>
-                        <p class="card-text text-white">Conceitos chave para criar designs limpos, funcionais e eficazes.</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0">
-                        <a href="post.html" class="btn btn-sm btn-outline-light">Ler</a>
-                        <small class="text-white-50 float-end mt-1">10 de junho de 2023</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 bg-dark-alt h-100">
-                    <img src="https://source.unsplash.com/random/400x300/?code" class="card-img-top" alt="Imagem da postagem">
-                    <div class="card-body">
-                        <h3 class="h5 card-title text-white">Arquitetura de Código Simples</h3>
-                        <p class="card-text text-white">Como construir sistemas sustentáveis com complexidade mínima.</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0">
-                        <a href="post.html" class="btn btn-sm btn-outline-light">Ler</a>
-                        <small class="text-white-50 float-end mt-1">5 de junho de 2023</small>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-6 col-lg-4">
-                <div class="card border-0 bg-dark-alt h-100">
-                    <img src="https://source.unsplash.com/random/400x300/?mindfulness" class="card-img-top" alt="Imagem da postagem">
-                    <div class="card-body">
-                        <h3 class="h5 card-title text-white">Minimalismo Digital</h3>
-                        <p class="card-text text-white">Estratégias para reduzir o excesso digital e melhorar o foco.</p>
-                    </div>
-                    <div class="card-footer bg-transparent border-0">
-                        <a href="post.html" class="btn btn-sm btn-outline-light">Ler</a>
-                        <small class="text-white-50 float-end mt-1">28 de maio de 2023</small>
-                    </div>
-                </div>
-            </div>
+        <div class="row g-4" id="postagens">
+            <!-- Postagens dinâmicas serão inseridas aqui -->
         </div>
 
         <!-- Botão Ver Todos -->
@@ -121,6 +58,36 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="script.js"></script>
+
+    <script>
+      fetch('https://api-fake-blog.onrender.com/postagens/')
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+          const container = document.getElementById('postagens');
+
+          data.forEach((postagem, index) => {
+            container.innerHTML += `
+              <div class="col-md-6 col-lg-4">
+                <div class="card border-0 bg-dark-alt h-100">
+                  <img src="${postagem.thumbImage}" class="card-img-top" alt="${postagem.thumbImageAltText}">
+                  <div class="card-body">
+                    <h3 class="h5 card-title text-white">${postagem.title}</h3>
+                    <p class="card-text text-white">${postagem.description}</p>
+                  </div>
+                  <div class="card-footer bg-transparent border-0">
+                    <a href="postagem.html?id=${postagem.id}" class="btn btn-sm btn-outline-light">Ler</a>
+                    <small class="text-white-50 float-end mt-1">${postagem.date || 'Data não disponível'}</small>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        })
+        .catch(err => {
+          console.error('Erro ao carregar postagens:', err);
+          document.getElementById('postagens').innerHTML = `<p class="text-white">Erro ao carregar postagens.</p>`;
+        });
+    </script>
 </body>
 </html>
