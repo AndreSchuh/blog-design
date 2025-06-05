@@ -1,19 +1,41 @@
-<!doctype html>
-<html lang="pt-BR" ng-app="blog">
+<!DOCTYPE html>
+<html lang="pt" ng-app="blogApp">
 <head>
-  <meta charset="utf-8">
-  <title>Postagem</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+  <meta charset="UTF-8">
+  <title>Postagem - Blog do Ensino Médio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
   <script src="app.js"></script>
-  <link href="https://getbootstrap.com/docs/5.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body ng-controller="PostagemCtrl">
-  <div class="container py-5">
-    <h1 class="mb-3">{{ postagem.title }}</h1>
-    <img class="img-fluid mb-4" ng-src="{{ postagem.thumbImage }}" alt="{{ postagem.thumbImageAltText }}">
-    <p>{{ postagem.description }}</p>
-    <p class="text-muted">{{ postagem.date || 'Data não disponível' }}</p>
-    <a href="index.html" class="btn btn-secondary mt-4">Voltar</a>
-  </div>
+<body>
+  <header>
+    <div class="container">
+      <h1>Blog do CIMOL</h1>
+      <p>Detalhes do Post</p>
+    </div>
+  </header>
+
+  
+  <!--coloco aqui a extruturação dos dados da api dentro do site(mesma coisa do index.html)-->
+  <main class="container" ng-controller="PostCtrl">
+    <article class="article">
+      <p ng-if="carregando">Carregando post...</p>
+      <p ng-if="erro">Post não encontrado ou URL inválida.</p>
+      <div ng-if="!carregando && !erro">
+        <h2 class="card-title">{{ post.title }}</h2>
+        <h6 class="card-subtitle">{{ post.postDate }} • {{ post.profileName }}</h6>
+        <img ng-src="{{ post.thumbImage || 'https://via.placeholder.com/400x200' }}" alt="{{ post.thumbImageAltText || 'Imagem do Post' }}">
+        <p>{{ post.description }}</p>
+        <a href="index.html" class="btn btn-secondary">Voltar para o Blog</a>
+      </div>
+    </article>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Blog do CIMOL</p>
+    </div>
+  </footer>
 </body>
 </html>
